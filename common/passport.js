@@ -42,14 +42,16 @@ module.exports = function (passport) {
         (req, username, password, done) => {
           process.nextTick(async function () {
             // Match user
-            valid = await userUtil.validateNewUsername(username)
-            valid = valid & await userUtil.validatePassword(password)
+            console.log(username,password)
+            // valid = await userUtil.validateNewUsername(username)
+            // valid = valid & await userUtil.validatePassword(password)
+            let valid=true
             if(valid){
               let name = req.body.name
               let query = `insert into user set ` + 
                           `username = ${db.escape(username)}, ` + 
-                          `password= sha2(${db.escape(password)},256), ` + 
-                          `name = ${db.escape(name)};`
+                          `password= ${db.escape(password)} ` 
+                         
               ret = await db.query(query)
               let newUser = new Object()
               newUser.id = ret.insertId

@@ -7,6 +7,7 @@ const cfg = require('./common/config')
 const db = require('./common/database')
 const passport = require('passport');
 const session = require('express-session');
+const flash = require('flash')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -34,7 +35,7 @@ app.use(
   })
 );
 
-
+app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session());
 
