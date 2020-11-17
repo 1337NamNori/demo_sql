@@ -9,7 +9,8 @@ module.exports = {
 		path: '/'
     },
     database: {
-        host: "172.16.75.232",
+        // host: "172.16.75.232",
+        host: 'localhost',
         port: "3306",
         schema: "vngrey",
         username: "vngrey",

@@ -8,9 +8,11 @@ const db = require('./common/database')
 const passport = require('passport');
 const session = require('express-session');
 const flash = require('flash')
+const methodOverride = require('method-override')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var myPostRouter = require('./routes/myPost');
 
 var app = express();
 db.connect();
@@ -25,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'))
 
 app.use(
   session({
@@ -42,6 +45,7 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/my-post', myPostRouter);
 
 // async function test(){
 //   let row = await db.query(

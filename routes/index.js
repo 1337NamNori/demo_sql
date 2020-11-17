@@ -9,11 +9,11 @@ router.get('/', checkAuthenticated, function (req, res, next) {
   res.render('index', { title: 'Express', username: req.user.username });
 });
 
-router.get('/login', (req, res, next) => {
+router.get('/login',checkNotAuthenticated, (req, res, next) => {
   res.render('login')
 })
 
-router.post('/login', (req, res, next) => {
+router.post('/login',checkNotAuthenticated, (req, res, next) => {
   passport.authenticate('local.login', function (err, user, info) {
     if (!user) {
       console.log('Failed!');
@@ -29,15 +29,21 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 }
 );
-router.get('/register', (req, res, next) => {
+router.get('/register', checkNotAuthenticated,(req, res, next) => {
   res.render('register')
 })
 
-router.post('/register', passport.authenticate('local.register',{
+router.post('/register',checkNotAuthenticated, passport.authenticate('local.register', {
   successRedirect: '/login',
   failureRedirect: '/register',
-  failureFlash:true
+  failureFlash: true
 }))
+
+router.delete('/logout', (req, res) => {
+  req.logOut()
+  res.redirect('/login')
+})
+
 
 
 function checkAuthenticated(req, res, next) {
@@ -45,8 +51,13 @@ function checkAuthenticated(req, res, next) {
     return next()
   }
   res.redirect('/login')
+}
 
-
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/')
+  }
+  next()
 }
 
 module.exports = router;

@@ -7,6 +7,14 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome, <%= username %></p>
-   
+    <div>
+      <form action="/logout?_method=DELETE" method="POST">
+      <button type="submit">Logout</button>
+    </form>
+     
+    </div>
+    <div>
+      <a type="button" href="/my-post" value="my-post" name="my-post" id="my-post">My Post</a>
+    </div>
   </body>
 </html>
